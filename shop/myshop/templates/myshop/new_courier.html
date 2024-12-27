@@ -1,0 +1,33 @@
+{% extends 'myshop/layout.html' %}
+
+{% block title %}
+    <title>{{ caption }} - Администратор - Добавление курьера</title>
+{% endblock %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container mt-5">
+            <h2 class="mb-4">Добавление курьера</h2>
+            <div class="mb-3">
+                <label for="name" class="form-label">ФИО</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Номер телефона</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required pattern="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$">
+            </div>
+
+            <div class="mb-3">
+                <label for="city" class="form-label">Город</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="Москва" required>
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-primary">Добавить товар</button>
+            <a href="{% url 'admin_only' %}" class="btn btn-danger">Отмена</a> <!-- Красная кнопка -->
+            <button type="reset" class="btn btn-primary">Очистить форму</button>
+        </div>
+    </form>
+{% endblock %}

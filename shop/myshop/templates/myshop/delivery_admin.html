@@ -1,0 +1,29 @@
+{% extends 'myshop/layout.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ caption }} - Администратор - Доставка</title>
+{% endblock %}
+
+{% block content %}
+
+    <br>
+
+   <div class="container">
+        <h3 class="my-4 text-center">{{ caption }} - Доставка</h3>
+        <div class="mb-3">
+            <a href="{% url 'delivery' %}" class="btn btn-primary">Перевести на предыдущий статус</a>
+            <a href="{% url 'delivery' %}" class="btn btn-primary">Перевести на следующий статус</a>
+            <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
+        </div>
+
+   </div>
+
+
+
+{% endblock %}</title>
+</head>
+<body>
+
+</body>
+</html>

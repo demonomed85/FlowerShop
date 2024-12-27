@@ -1,8 +1,53 @@
 {% extends 'myshop/layout.html' %}
 
 {% block title %}
-<title>Цветочный магазин</title>
+    <title>{{ caption }} - Цветочный магазин</title>
 {% endblock %}
+
 {% block content %}
-<h1>Цветочный магазин</h1>
+    <div class="container text-center">
+        <h3 class="my-4">{{ caption }}</h3>
+
+        <div class="row">
+            {% if items %}
+                {% for item in items %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="img-container">
+                                <img src="{{ item.photo.url }}" class="card-img-top" alt="{{ item.name }}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.name }}</h5>
+                                <p class="card-text">{{ item.description }}</p>
+                                <p class="card-text"><strong>Цена: {{ item.price }} ₽</strong></p>
+                                <a href="{% url 'item' %}" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <h4>Товар ещё не добавлен.</h4>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+    .img-container {
+        width: 100%; /* Задает ширину контейнера */
+        height: 400px; /* Задайте желаемую высоту */
+        overflow: hidden; /* Обрезает изображение */
+        position: relative; /* Для позиционирования изображения */
+    }
+
+    .img-container img {
+        width: 100%; /* Масштабирует изображение по ширине */
+        height: 100%; /* Масштабирует изображение по высоте */
+        object-fit: cover; /* Обрезает изображение, сохраняя пропорции */
+        position: absolute; /* Позволяет изображению занимать всю площадь контейнера */
+        top: 0;
+        left: 0;
+    }
+    </style>
 {% endblock %}

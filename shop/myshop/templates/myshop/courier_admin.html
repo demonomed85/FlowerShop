@@ -1,0 +1,54 @@
+{% extends 'myshop/layout.html' %}
+
+{% block title %}
+    <title>{{ caption }} - Администратор - учет курьеров</title>
+{% endblock %}
+
+{% block content %}
+<br>
+    <div class="container text-center">
+        <h3 class="mb-4">Учет курьеров</h3>
+
+        <div class="d-flex justify-content-start mb-3">
+            <a href="{% url 'new_courier' %}" class="btn btn-primary me-2">Добавить курьера</a>
+            <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
+        </div>
+
+        <form method="POST" action="{% url 'delete_couriers' %}">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" width="5%">Выбрать</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Телефон</th>
+                        <th scope="col">Город</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if couriers %}
+                        {% for courier in couriers %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="courier_ids" value="{{ courier.id }}">
+                                </td>
+                                <td>{{ courier.name }}</td>
+                                <td>{{ courier.phone_number }}</td>
+                                <td>{{ courier.city }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">Ни одного курьера ещё не добавили.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            {% if couriers %}
+                <button type="submit" class="btn btn-danger">Удалить выбранных курьеров</button>
+            {% endif %}
+        </form>
+    </div>
+
+{% endblock %}

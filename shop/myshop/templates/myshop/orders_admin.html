@@ -1,0 +1,61 @@
+{% extends 'myshop/layout.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ caption }} - Администратор - Доставка</title>
+{% endblock %}
+
+{% block content %}
+
+    <br>
+
+   <div class="container">
+    <h3 class="my-4 text-center">Заказы</h3>
+    <div class="mb-3">
+            <a href="{% url 'orders' %}" class="btn btn-primary">Перевести на предыдущий статус</a>
+            <a href="{% url 'orders' %}" class="btn btn-primary">Перевести на следующий статус</a>
+            <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
+    </div>
+        <div class="row">
+            {% if orders %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Название</th>
+                            <th>Описание</th>
+                            <th>Цена</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td><img src="{{ item.photo.url }}" alt="{{ item.name }}" style="width: 50px; height: auto;"></td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.price }} ₽</td>
+                                <td>
+                                    <form action="{% url 'delete_item' item.id %}" method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот товар?');">
+                                            <img src="{% static 'myshop/img/delete_icon.png' %}" alt="Удалить" style="width: 20px; height: auto;">
+                                        </button>
+                                    </form>
+                                    <a href="{% url 'edit_item' item.id %}" class="btn btn-warning">
+                                        <img src="{% static 'myshop/img/edit_icon.png' %}" alt="Редактировать" style="width: 20px; height: auto;">
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="col-12">
+                    <h4>Заказов еще нет.</h4>
+                </div>
+            {% endif %}
+        </div>
+   </div>
+
+{% endblock %}
