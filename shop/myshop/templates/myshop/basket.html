@@ -1,8 +1,87 @@
 {% extends 'myshop/layout.html' %}
+{% load custom_filters %}
 
 {% block title %}
     <title>{{ caption }} - Корзина</title>
 {% endblock %}
 {% block content %}
-    <h3>Корзина</h3>
+<h3 class="my-4 text-center">Корзина {% if cart_items %}</h3>{% else %}пуста. </h3><h5 class="my-4 text-center"><a href="{% url 'index' %}">Выберите цветы</a></h5>{% endif %}
+
+    {% if cart_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td><img src="{{ item.item.photo.url }}" alt="{{ item.item.name }}" width="50"></td>
+                        <td>{{ item.item.name }}</td>
+                        <td>{{ item.item.price }} ₽</td>
+                        <td>
+                            <input type="number" min="1" value="{{ item.quantity }}" class="quantity-input" data-price="{{ item.item.price }}" data-item-id="{{ item.id }}">
+                        </td>
+                        <td class="total-price">{{ item.item.price|multiply:item.quantity }} ₽</td>
+                        <td>
+                            <form action="{% url 'remove_from_cart' item.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <h4>Итоговая стоимость: {{ total_cost }} ₽</h4>
+
+        <form action="{% url 'order' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Оформить заказ</button>
+        </form>
+
+    {% endif %}
+
+<script>
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', function() {
+            const price = parseFloat(this.getAttribute('data-price'));
+            const quantity = parseInt(this.value) || 0;
+            const totalPriceCell = this.closest('tr').querySelector('.total-price');
+
+            const totalPrice = price * quantity;
+            totalPriceCell.textContent = totalPrice.toFixed(2) + ' ₽';
+
+            fetch('/update_cart/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    item_id: this.getAttribute('data-item-id'),
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Обновляем общую стоимость
+                    document.querySelector('h4').textContent = 'Итоговая стоимость: ' + data.total_cost + ' ₽';
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+        });
+    });
+</script>
+
+
 {% endblock %}

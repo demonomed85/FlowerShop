@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import delete_item, edit_item
+from .views import *
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -20,4 +20,10 @@ urlpatterns = [
     path('goods/', views.goods, name='goods'),
     path('delivery/', views.delivery, name='delivery'),
     path('orders/', views.orders, name='orders'),
+    path('update_orders_status/', views.update_orders_status, name='update_orders_status'),
+    path('add_to_cart/<int:item_id>/', views.add_to_cart, name='add_to_cart'),
+    path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('create_order/', views.create_order, name='create_order'),
+    path('update_cart/', views.update_cart, name='update_cart'),
+    path('repeat_order/', views.repeat_order, name='repeat_order'),
 ]

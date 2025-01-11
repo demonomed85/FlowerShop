@@ -1,61 +1,88 @@
-{% extends 'myshop/layout.html' %}
+{% extends 'myshop/layout_admin.html' %}
 {% load static %}
-
 {% block title %}
-    <title>{{ caption }} - Администратор - Доставка</title>
+    <title>{{ caption }} - Администратор - Заказы</title>
 {% endblock %}
 
 {% block content %}
-
     <br>
+    <div class="container-fluid" style="padding: 0;">
+        <h3 class="my-4 text-center">Заказы</h3>
+        <div class="mb-3"></div>
 
-   <div class="container">
-    <h3 class="my-4 text-center">Заказы</h3>
-    <div class="mb-3">
-            <a href="{% url 'orders' %}" class="btn btn-primary">Перевести на предыдущий статус</a>
-            <a href="{% url 'orders' %}" class="btn btn-primary">Перевести на следующий статус</a>
-            <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
-    </div>
-        <div class="row">
-            {% if orders %}
-                <table class="table table-bordered">
-                    <thead>
+        <form method="post" action="{% url 'update_orders_status' %}">
+            <div class="mb-3">
+                <button type="submit" name="action" value="previous" class="btn btn-primary">Перевести на предыдущий статус</button>
+                <button type="submit" name="action" value="next" class="btn btn-primary">Перевести на следующий статус</button>
+                <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
+            </div>
+            {% csrf_token %}
+            <div style="overflow-y: auto; max-height: 400px;">
+                <table class="table table-bordered" style="width: 100%;">
+                    <thead class="thead-light">
                         <tr>
-                            <th>Номер заказа</th>
-                            <th>Название</th>
-                            <th>Описание</th>
-                            <th>Цена</th>
-                            <th>Действия</th>
+                            <th><input type="checkbox" id="select_all"></th>
+                            <th>ID заказа</th>
+                            <th>Статус</th>
+                            <th>Дата заказа</th>
+                            <th>Перечень ID товаров</th>
+                            <th>Перечень наименований товаров</th>
+                            <th>Количество заказанного каждого товара</th>
+                            <th>Количество товара на складе</th>
+                            <th>Customer ID</th>
+                            <th>Имя клиента</th>
+                            <th>Адрес доставки</th>
+                            <th>Желаемая дата и время доставки</th>
+                            <th>Фактическая дата и время доставки</th>
+                            <th>Статус заказа</th>
+                            <th>ФИО назначенного курьера</th>
+                            <th>Номер телефона курьера</th>
+                            <th>Статус доставки</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in items %}
-                            <tr>
-                                <td><img src="{{ item.photo.url }}" alt="{{ item.name }}" style="width: 50px; height: auto;"></td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.description }}</td>
-                                <td>{{ item.price }} ₽</td>
-                                <td>
-                                    <form action="{% url 'delete_item' item.id %}" method="POST" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот товар?');">
-                                            <img src="{% static 'myshop/img/delete_icon.png' %}" alt="Удалить" style="width: 20px; height: auto;">
-                                        </button>
-                                    </form>
-                                    <a href="{% url 'edit_item' item.id %}" class="btn btn-warning">
-                                        <img src="{% static 'myshop/img/edit_icon.png' %}" alt="Редактировать" style="width: 20px; height: auto;">
-                                    </a>
-                                </td>
-                            </tr>
+                        {% for order in orders %}
+                        <tr>
+                            <td><input type="checkbox" name="selected_orders" value="{{ order.id }}"></td>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>{{ order.created_at }}</td>
+                            <td>
+                                {% for item in order.items.all %}
+                                    {{ item.item.id }}{% if not forloop.last %}<br> {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for item in order.items.all %}
+                                    {{ item.item.name }}{% if not forloop.last %}<br> {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for item in order.items.all %}
+                                    {{ item.quantity }}{% if not forloop.last %}<br> {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="{% if item.item.stock < item.quantity %}background-color: orange;{% endif %}">
+                                {% for item in order.items.all %}
+                                    {{ item.item.stock }}{% if not forloop.last %}<br> {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ order.customer.id }}</td>
+                                                        <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                            <td>{{ order.address }}</td>
+                            <td>{{ order.delivery_date }} {{ order.desired_time }}</td>
+                            <td>{{ order.actual_delivery_time|default:"" }}</td>
+                            <td>{{ order.delivery.status }}</td>
+                            <td>{{ order.delivery.courier.name }}</td>
+                            <td>{{ order.delivery.courier.phone_number }}</td>
+                            <td>{{ order.delivery.status }}</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
-                <div class="col-12">
-                    <h4>Заказов еще нет.</h4>
-                </div>
-            {% endif %}
-        </div>
-   </div>
+            </div>
 
+        </form>
+
+    </div>
 {% endblock %}

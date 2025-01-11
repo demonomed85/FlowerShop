@@ -6,8 +6,7 @@
 
 {% block content %}
     <div class="container text-center">
-        <h3 class="my-4">{{ caption }}</h3>
-
+        <h3 class="my-4">{{ caption }} - Магазин цветов</h3>
         <div class="row">
             {% if items %}
                 {% for item in items %}
@@ -20,7 +19,11 @@
                                 <h5 class="card-title">{{ item.name }}</h5>
                                 <p class="card-text">{{ item.description }}</p>
                                 <p class="card-text"><strong>Цена: {{ item.price }} ₽</strong></p>
-                                <a href="{% url 'item' %}" class="btn btn-primary">Подробнее</a>
+                                <div class="quantity-controls">
+                                    <input type="number" id="quantity-{{ item.id }}" value="1" min="1" style="width: 50px;">
+                                    <button id="add-to-cart-{{ item.id }}" onclick="addToCart({{ item.id }})">В корзину</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -35,19 +38,83 @@
 
     <style>
     .img-container {
-        width: 100%; /* Задает ширину контейнера */
-        height: 400px; /* Задайте желаемую высоту */
-        overflow: hidden; /* Обрезает изображение */
-        position: relative; /* Для позиционирования изображения */
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        position: relative;
     }
 
     .img-container img {
-        width: 100%; /* Масштабирует изображение по ширине */
-        height: 100%; /* Масштабирует изображение по высоте */
-        object-fit: cover; /* Обрезает изображение, сохраняя пропорции */
-        position: absolute; /* Позволяет изображению занимать всю площадь контейнера */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
         top: 0;
         left: 0;
     }
     </style>
+
+    <script id="user-auth-unique" type="application/json">
+        "{{ user.is_authenticated|yesno:'true,false' }}"
+    </script>
+
+    <script>
+        // Извлекаем значение из тега <script>
+        const isAuthenticated = JSON.parse(document.getElementById('user-auth-unique').textContent);
+
+        function addToCart(itemId) {
+            const quantity = document.getElementById(`quantity-${itemId}`).value;
+            const button = document.getElementById(`add-to-cart-${itemId}`);
+
+            if (!isAuthenticated) {
+                alert("1. Войдите или зарегистрируйтесь на сайте.");
+                return;
+            }
+
+            if (button.textContent === "В корзине") {
+                window.location.href = '/basket';
+                return;
+            }
+
+            fetch(`/add_to_cart/${itemId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ quantity: quantity })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Сеть ответила с ошибкой');
+                }
+                return response.json();
+            })
+            .then(data => {
+                button.textContent = "В корзине";
+                button.classList.add('btn-success');
+                button.onclick = function() {
+                    window.location.href = '/basket';
+                };
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('2. Войдите или зарегистрируйтесь на сайте.');
+            });
+        }
+
+        function decreaseQuantity(itemId) {
+            const input = document.getElementById(`quantity-${itemId}`);
+            if (input.value > 1) {
+                input.value--;
+            }
+        }
+
+        function increaseQuantity(itemId) {
+            const input = document.getElementById(`quantity-${itemId}`);
+            input.value++;
+        }
+    </script>
+
+
 {% endblock %}

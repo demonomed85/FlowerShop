@@ -5,5 +5,105 @@
 {% endblock %}
 
 {% block content %}
-    <h3>Оформление заказа</h3>
+    <div class="container my-5">
+        <h3 class="my-4 text-center">Оформление заказа</h3>
+
+        <!--{% if items|length > 0 %} -->
+            <form action="{% url 'create_order' %}" method="POST" class="bg-light p-4 rounded shadow">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="order_number" class="form-label">Номер заказа:</label>
+                    <input type="text" id="order_number" name="order_number" class="form-control" value="{{ order_number }}" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="orderDate" class="form-label">Дата заказа:</label>
+                    <input type="text" id="orderDate" class="form-control" value="{{ current_date }}" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="recipientName" class="form-label">Имя получателя:</label>
+                    <input type="text" id="recipientName" class="form-control" value="{{ recipient_name }}" required />
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        <label for="deliveryDate" class="form-label">Дата доставки:</label>
+                        <input type="date" id="deliveryDate" name="delivery_date" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                        <label for="desiredTime" class="form-label">Время доставки:</label>
+                        <select name="desired_time" id="desiredTime" class="form-select" required>
+                            <option value="">Выберите время</option>
+                            {% for hour in hours %}
+                                <option value="{{ hour }}:00">{{ hour }}:00</option>
+                                <option value="{{ hour }}:30">{{ hour }}:30</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Адрес доставки:</label>
+                    <input type="text" id="address" name="address" class="form-control" value="{{ address }}" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Создать заказ</button>
+            </form>
+        <!--{% else %}
+            <div class="alert alert-warning" role="alert">
+                Нет выбранных товаров для заказа.
+            </div>
+        {% endif %} -->
+
+        <h4 class="my-4">Ранее оформленные заказы:</h4>
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Товары</th>
+                    <th>Количество</th>
+                    <th>Общая стоимость</th>
+                    <th>Дата заказа</th>
+                    <th>Фактическая дата доставки</th>
+                    <th>Статус заказа</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>
+                            {% for item in order.items.all %}
+                                {{ item.item.name }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.items.all %}
+                                {{ item.quantity }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>{{ order.total_cost }} ₽</td>
+                        <td>{{ order.created_at|date:"d.m.Y" }}</td>
+                        <td>{{ order.actual_delivery_time|date:"d.m.Y H:i" }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <form action="{% url 'repeat_order' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="customer_id" value="{{ order.customer.id }}">
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <input type="hidden" name="order_number" value="{{ order.order_number }}">
+                                <input type="hidden" name="delivery_date" value="{{ order.delivery_date }}">
+                                <input type="hidden" name="desired_time" value="{{ order.desired_time }}">
+                                <input type="hidden" name="address" value="{{ order.address }}">
+                                <button type="submit" class="btn btn-success btn-sm">Повторить заказ</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

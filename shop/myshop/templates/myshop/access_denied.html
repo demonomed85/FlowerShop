@@ -1,0 +1,14 @@
+{% extends 'myshop/layout.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Доступ запрещен</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+        <h3 class="my-4 text-center">Доступ запрещен</h3>
+        <a href="{% url 'index' %}" class="btn btn-primary">На главную</a>
+    </div>
+{% endblock %}
