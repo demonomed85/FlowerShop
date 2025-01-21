@@ -17,7 +17,7 @@
                 <a href="{% url 'admin_only' %}" class="btn btn-danger">Назад</a>
             </div>
             {% csrf_token %}
-            <div style="overflow-y: auto; max-height: 400px;">
+            <div style="overflow-y: auto; max-height: 500px;">
                 <table class="table table-bordered" style="width: 100%;">
                     <thead class="thead-light">
                         <tr>
@@ -34,10 +34,7 @@
                             <th>Адрес доставки</th>
                             <th>Желаемая дата и время доставки</th>
                             <th>Фактическая дата и время доставки</th>
-                            <th>Статус заказа</th>
-                            <th>ФИО назначенного курьера</th>
-                            <th>Номер телефона курьера</th>
-                            <th>Статус доставки</th>
+                            <th>Курьер</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,10 +69,30 @@
                             <td>{{ order.address }}</td>
                             <td>{{ order.delivery_date }} {{ order.desired_time }}</td>
                             <td>{{ order.actual_delivery_time|default:"" }}</td>
-                            <td>{{ order.delivery.status }}</td>
-                            <td>{{ order.delivery.courier.name }}</td>
-                            <td>{{ order.delivery.courier.phone_number }}</td>
-                            <td>{{ order.delivery.status }}</td>
+                            <td>
+                                <select name="courier_{{ order.id }}">
+                                    {% if order.delivery.courier %}
+                                        {% for courier in couriers %}
+                                            <option value="{{ courier.id }}"
+                                                    {% if order.delivery.courier.id == courier.id %}selected{% endif %}>
+                                                {{ courier.name }} ({{ courier.phone_number }}, {{ courier.city }})
+                                            </option>
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                        <option value="" selected>Выберите курьера</option>
+
+                                        {% for courier in couriers %}
+                                            <option value="{{ courier.id }}">
+                                                {{ courier.name }} ({{ courier.phone_number }}, {{ courier.city }})
+                                            </option>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                </select>
+
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

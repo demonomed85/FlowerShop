@@ -356,9 +356,12 @@ def goods(request):
 
 def orders(request):
     orders = Order.objects.prefetch_related('items__item', 'customer', 'delivery__courier', 'status').all()
+    couriers = Courier.objects.all()
+
     data = {
         'orders': orders,
-        'caption': caption
+        'caption': caption,
+        'couriers' : couriers,
     }
     return render(request, 'myshop/orders_admin.html', data)
 
