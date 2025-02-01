@@ -5,35 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="558b703f-3023-42c2-b445-399667e58b4c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shop/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/migrations/0002_item_photo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/static/myshop/img/delete_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/static/myshop/img/edit_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/add_new_item.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/admin_only.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/courier_admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/delivery_admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/footer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/goods_admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/new_courier.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/orders_admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/tg_manager_bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/basket.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/basket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/item.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/item.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/logout.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/logout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/nav.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/templates/myshop/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/templates/myshop/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/myshop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/shop/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/shop/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/shop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/shop/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/manage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -59,20 +35,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\TG_bot1" />
+      <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\TG_bot" />
+      <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\TG_bot\TG_bot" />
       <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\static\myshop\img" />
       <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop" />
-      <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\templates\myshop" />
-      <recent name="C:\Users\Thunderobot\Desktop\Обучение Python\ДЗ\FlowerShop\FlowerShop\shop\myshop\static\myshop" />
     </key>
   </component>
   <component name="SharedIndexes">
