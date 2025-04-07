@@ -4,15 +4,29 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import CartItem, Cart, Item, Order, OrderStatus, OrderItem, User, Courier, Delivery
+from .models import CartItem, Cart, Item, Order, OrderStatus, OrderItem, User, Courier, Delivery, TelegramUser
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .forms import RegistrationForm
 import json
 from django.utils import timezone
-from datetime import timedelta
+from rest_framework import viewsets
+from rest_framework.response import Response
+from .serializers import TelegramUserSerializer
+from static.TG.config import TOKEN
+import requests
 
 caption = "FlowerShop"
 
+
+class TelegramUserViewSet(viewsets.ModelViewSet):
+    queryset = TelegramUser.objects.all()
+    serializer_class = TelegramUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data)
 
 def index(request):
     items = Item.objects.all()
@@ -443,3 +457,17 @@ def delete_item(request, item_id):
 def edit_item(request, item_id):
     item = Item.objects.get(id=item_id)
     return render(request, 'myshop/add_new_item.html', {'item': item})
+
+
+# Функция для отправки сообщения в Telegram
+def send_message(user_id, text):
+    bot_token = 'TOKEN'  # Замените на ваш токен бота
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+
+    payload = {
+        'chat_id': user_id,
+        'text': text,
+    }
+
+    response = requests.post(url, json=payload)
+    return response.json()

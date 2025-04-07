@@ -1,6 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from .views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'telegram_users', TelegramUserViewSet)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -26,4 +30,5 @@ urlpatterns = [
     path('create_order/', views.create_order, name='create_order'),
     path('update_cart/', views.update_cart, name='update_cart'),
     path('repeat_order/', views.repeat_order, name='repeat_order'),
+    path('api/', include(router.urls)),
 ]

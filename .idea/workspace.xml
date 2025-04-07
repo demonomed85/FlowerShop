@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="558b703f-3023-42c2-b445-399667e58b4c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shop/myshop/TG_bot/tg_manager_bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shop/myshop/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shop/myshop/static/TG/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/myshop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/myshop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/myshop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/myshop/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/shop/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/shop/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

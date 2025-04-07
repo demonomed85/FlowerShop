@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 
+
 class Item(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -32,14 +33,17 @@ class Customer(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+
 @receiver(post_save, sender=User)
 def create_customer(sender, instance, created, **kwargs):
     if created:
         Customer.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
 def save_customer(sender, instance, **kwargs):
     instance.customer.save()
+
 
 class OrderStatus(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -109,6 +113,7 @@ class Delivery(models.Model):
     def __str__(self):
         return f"Доставка заказа №{self.order.id} - Статус: {self.status}"
 
+
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -116,6 +121,7 @@ class Cart(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
@@ -128,6 +134,7 @@ class CartItem(models.Model):
 
     def str(self):
         return f"{self.quantity} of {self.item.name} in Cart"
+
 
 @receiver(post_save, sender=Delivery)
 def update_order_status_on_delivery(sender, instance, **kwargs):
@@ -147,3 +154,11 @@ class Courier(models.Model):
     def __str__(self):
         return self.name
 
+
+class TelegramUser(models.Model):
+    user_id = models.BigIntegerField(unique=True)  # Уникальный идентификатор пользователя в Telegram
+    name = models.CharField(max_length=255)
+    position = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name} ({self.position})"
